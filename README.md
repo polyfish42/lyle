@@ -57,17 +57,17 @@ ruby config/application.rb
 
 #API
 
-**protect_from_forgery** Run this method inside any controller you want CSRF protection in.
+**::protect_from_forgery** Run this method inside any controller you want CSRF protection in.
 ```
 class CatsController < ControllerBase
 protect_from_forgery
 ```
 
-**form_authentication_token** Place this as a hidden input in any of your forms when `protect_from_forgery` is enabled.
+**#form_authentication_token** Place this as a hidden input in any of your forms when `protect_from_forgery` is enabled.
 
 **#belongs_to, #has_many, #has_one_through** Invoke these callbacks in your models to associate different tables in your database. Provide the primary key, foreign key, and class name of associations or leave them out if your foreign key and class name are the same.
 
-**session** Access the session cookies for basic auth in your controllers.
+**#session** Access the session cookies for basic auth in your controllers.
 
-**flash** Used when you want information to be available in the cookies for one request/response cycle (like when displaying errors). Use `flash.now` when you want the cookie to last the rest of a single response.
+**#flash** Used when you want information to be available in the cookies for one request/response cycle (like when displaying errors). Use `flash.now` when you want the cookie to last the rest of a single response.
 

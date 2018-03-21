@@ -71,3 +71,7 @@ protect_from_forgery
 
 **#flash** Used when you want information to be available in the cookies for one request/response cycle (like when displaying errors). Use `flash.now` when you want the cookie to last the rest of a single response.
 
+**#where** search the databse with SQL where queries.
+```
+Cat.where(name: 'Kevin', owner: 'Oscar')
+```

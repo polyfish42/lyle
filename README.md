@@ -42,4 +42,13 @@ Routes go in the `config/application.rb` file. Their format is http-method -> re
 
 ### Controllers
 
-Controllers are placed in the 
+Controllers are placed in the `app/controllers` folder. Require the **AppController** file (in the same directory) and make sure your controller inherits from AppController.
+
+### Models
+Place model classes in `app/models`, require **AppModel**, and make sure all models inherit from AppModel.
+
+### Run the server
+In terminal, run:
+```
+ruby config/application.rb
+```

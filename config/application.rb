@@ -5,10 +5,7 @@ require_relative '../lib/model_base/db_connection'
 
 router = Router.new
 router.draw do
-  get Regexp.new("^/cats$"), CatsController, :index
-  get Regexp.new("^/cats/new$"), CatsController, :new
-  get Regexp.new("^/cats/(?<id>\\d+)$"), CatsController, :show
-  post Regexp.new("^/cats$"), CatsController, :create
+ #Routes go here
 end
 
 app = Proc.new do |env|

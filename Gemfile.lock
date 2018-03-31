@@ -12,6 +12,7 @@ GEM
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     minitest (5.11.3)
+    pg (1.0.0)
     puma (3.11.2)
     rack (2.0.4)
     rspec (3.1.0)
@@ -36,9 +37,10 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   byebug
+  pg
   puma
   rack
   rspec (~> 3.1.0)
 
 BUNDLED WITH
-   1.14.6
+   1.16.1

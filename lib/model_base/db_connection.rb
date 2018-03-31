@@ -1,27 +1,25 @@
-require 'sqlite3'
+require 'pg'
 
 PRINT_QUERIES = ENV['PRINT_QUERIES'] == 'true'
 ROOT_FOLDER = File.join(File.dirname(__FILE__), '../..')
-SQL_FILE = File.join(ROOT_FOLDER, 'PUT_YOUR_SQL_FILE_NAME_HERE')
-DB_FILE = File.join(ROOT_FOLDER, 'PUT_YOUR_DB_FILE_NAME_HERE')
+SQL_FILE = File.join(ROOT_FOLDER, YOUR_SQL_FILE_HERE)
+DB_NAME = File.join(YOUR_DB_NAME_HERE)
 
 class DBConnection
-  def self.open(db_file_name)
-    @db = SQLite3::Database.new(db_file_name)
-    @db.results_as_hash = true
-    @db.type_translation = true
-
+  def self.open(db_name)
+    @db = PG::Connection.open(dbname: db_name)
     @db
   end
 
   def self.reset
-    commands = [
-      "rm '#{DB_FILE}'",
-      "cat '#{SQL_FILE}' | sqlite3 '#{DB_FILE}'"
-    ]
+   commands = [
+     "dropdb '#{DB_NAME}'",
+     "createdb '#{DB_NAME}'",
+     "psql  '#{DB_NAME}' <  '#{SQL_FILE}'"
+   ]
 
     commands.each { |command| `#{command}` }
-    DBConnection.open(DB_FILE)
+    DBConnection.open(DB_NAME)
   end
 
   def self.instance
@@ -32,12 +30,7 @@ class DBConnection
 
   def self.execute(*args)
     print_query(*args)
-    instance.execute(*args)
-  end
-
-  def self.execute2(*args)
-    print_query(*args)
-    instance.execute2(*args)
+    instance.exec(*args)
   end
 
   def self.last_insert_row_id

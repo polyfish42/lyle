@@ -8,13 +8,13 @@ class ModelBase
     if @columns
       @columns
     else
-      table = DBConnection.execute2(<<-SQL)
+      table = DBConnection.execute(<<-SQL)
         SELECT
           *
         FROM
           #{self.table_name}
       SQL
-      @columns = table[0].map(&:to_sym)
+      @columns = table.fields.map(&:to_sym)
     end
   end
 
@@ -102,24 +102,26 @@ class ModelBase
   def insert
     cols = self.class.columns - [:id]
     col_names = cols.join(",")
-    question_marks = Array.new(cols.length, "?").join(",")
+    question_marks = Array.new(cols.length).map.with_index {|_, i| "$#{i + 1}"}.join(",")
 
-    result = DBConnection.execute(<<-SQL, *attribute_values)
+    id = DBConnection.execute(<<-SQL, attribute_values)
       INSERT INTO
         #{self.class.table_name} (#{col_names})
       VALUES
         (#{question_marks})
+      RETURNING
+        id
     SQL
-    
-    self.id = DBConnection.last_insert_row_id
+
+    self.id = id
     self
   end
 
   def update
     cols = self.class.columns.reject {|k, _| k == :id}
-    set_clause = cols.map {|k, v| "#{k} = ?"}.join(",")
+    set_clause = cols.map.with_index {|(k, _), i| "#{k} = ?"}.join(",")
 
-    result = DBConnection.execute(<<-SQL, *attribute_values.rotate)
+    result = DBConnection.execute(<<-SQL, attribute_values.rotate)
       UPDATE
         #{self.class.table_name}
       SET

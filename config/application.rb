@@ -4,7 +4,11 @@ require_relative '../lib/model_base/db_connection'
 
 router = Router.new
 router.draw do
+<<<<<<< HEAD
   # put your routes in here
+=======
+ #Routes go here
+>>>>>>> c602cf683a80652d810e0cad97d8d99a5d44ada4
 end
 
 app = Proc.new do |env|
